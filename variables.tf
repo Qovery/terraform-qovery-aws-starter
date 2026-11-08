@@ -107,7 +107,7 @@ variable "database" {
   }
 
   validation {
-    condition     = var.database.mode != "MANAGED" || var.database.instance_type != null
+    condition     = var.database.mode == "CONTAINER" || var.database.instance_type != null
     error_message = "database.instance_type is required when database.mode is MANAGED, for example db.t3.micro."
   }
 
@@ -145,22 +145,22 @@ variable "application" {
   default = null
 
   validation {
-    condition     = var.application == null || can(regex("^https://", var.application.git_url))
+    condition     = try(can(regex("^https://", var.application.git_url)), var.application == null)
     error_message = "application.git_url must be an HTTPS URL, for example https://github.com/my-org/my-app.git."
   }
 
   validation {
-    condition     = var.application == null || (var.application.port >= 1 && var.application.port <= 65535)
+    condition     = try(var.application.port >= 1 && var.application.port <= 65535, var.application == null)
     error_message = "application.port must be between 1 and 65535."
   }
 
   validation {
-    condition     = var.application == null || var.application.min_running_instances <= var.application.max_running_instances
+    condition     = try(var.application.min_running_instances <= var.application.max_running_instances, var.application == null)
     error_message = "application.min_running_instances must not exceed application.max_running_instances."
   }
 
   validation {
-    condition     = var.application == null || can(regex("^[A-Za-z_][A-Za-z0-9_]*$", var.application.database_url_variable))
+    condition     = try(can(regex("^[A-Za-z_][A-Za-z0-9_]*$", var.application.database_url_variable)), var.application == null)
     error_message = "application.database_url_variable must be a valid environment variable name, for example DATABASE_URL."
   }
 }
