@@ -145,7 +145,7 @@ variable "application" {
   default = null
 
   validation {
-    condition     = try(can(regex("^https://", var.application.git_url)), var.application == null)
+    condition     = try(length(regex("^https://", var.application.git_url)) > 0, var.application == null)
     error_message = "application.git_url must be an HTTPS URL, for example https://github.com/my-org/my-app.git."
   }
 
@@ -160,7 +160,7 @@ variable "application" {
   }
 
   validation {
-    condition     = try(can(regex("^[A-Za-z_][A-Za-z0-9_]*$", var.application.database_url_variable)), var.application == null)
+    condition     = try(length(regex("^[A-Za-z_][A-Za-z0-9_]*$", var.application.database_url_variable)) > 0, var.application == null)
     error_message = "application.database_url_variable must be a valid environment variable name, for example DATABASE_URL."
   }
 }
