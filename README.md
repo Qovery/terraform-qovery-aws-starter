@@ -11,7 +11,7 @@ One `module` block gives you:
 
 You do not write an EKS module, Helm releases or Kubernetes provider glue. Qovery creates the cluster, deploys your services and upgrades both. Everything runs in your AWS account.
 
-Registry address: `qovery/aws-starter/qovery`. Until the module is listed on the Terraform and OpenTofu registries, use the GitHub source instead:
+Registry address: `qovery/aws-starter/qovery` ([Terraform Registry](https://registry.terraform.io/modules/Qovery/aws-starter/qovery/latest)). Until the module is listed on the OpenTofu Registry, OpenTofu users can use the GitHub source instead:
 
 ```hcl
 source = "github.com/Qovery/terraform-qovery-aws-starter?ref=v0.1.1"
